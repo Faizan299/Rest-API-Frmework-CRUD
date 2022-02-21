@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CRUD</title>
+</head>
+<body>
+	<form action="{% url 'create' %}" method="POST">
+		{% csrf_token %}
+		<label>Name</label>
+		{{ forms.name }}
+		<br>
+		<label>Email</label>
+		{{ forms.email }}
+		<br>
+		<input type="submit" name="submit" value="submit">
+	</form>
+	<hr>
+	<h1>Record</h1>
+	{% for record in records %}
+		<li>Name: {{ record.name }}</li>
+		<li>Email: {{ record.email }}</li>
+		<form action="{% url 'update' %}" method="GET">
+			{% csrf_token %}
+			<input type="hidden" name="sId" value="{{ record.id }}">
+			<input type="submit" value="update it!">
+		</form>
+		<form action="{% url 'delete' %}" method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="delete" value="{{ record.id }}">
+			<input type="submit" value="delete it!">
+		</form>
+		<hr>
+	{% empty %}
+		<li>No Record</li>
+	{% endfor %}
+</body>
+</html>
